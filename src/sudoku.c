@@ -12,7 +12,6 @@ char *getRowValues(int index, char *board)
     char *rowValues = malloc(10 * sizeof(char));
     memcpy(rowValues, &board[row * 9], 9);
     rowValues[9] = '\0';
-    // printString(rowValues, "row");
 
     return rowValues;
 
@@ -27,7 +26,6 @@ char *getColValues(int index, char *board)
         memcpy(colValues+i, &board[value], 1);
     }
     colValues[9] = '\0';
-    // printString(colValues, "col");
 
     return colValues;
 
@@ -37,23 +35,17 @@ char *getBoxValues(int index, char *board)
 {
     int boxIndices[9][9] = {0, 1, 2, 9, 10, 11, 18, 19, 20, 3, 4, 5, 12, 13, 14, 21, 22, 23, 6, 7, 8, 15, 16, 17, 24, 25, 26, 27, 28, 29, 36, 37, 38, 45, 46, 47, 30, 31, 32, 39, 40, 41, 48, 49, 50, 33, 34, 35, 42, 43, 44, 51, 52, 53, 54, 55, 56, 63, 64, 65, 72, 73, 74, 57, 58, 59, 66, 67, 68, 75, 76, 77, 60, 61, 62, 69, 70, 71, 78, 79, 80};
     int boxNumber = ((( index / 9) / 3) * 3) + (( index % 9 ) / 3);
-    // printInt(boxNumber);
     char *boxValues = malloc(10 * sizeof(char));
     for(int i = 0; i < 9; i++) {
         int value = boxIndices[boxNumber][i];
-        // printInt(boxIndices[boxNumber][i]);
-        // printf("\"%s\"[%d] = %c", board, boxIndices[boxNumber][i], board[boxIndices[boxNumber][i]]);
         boxValues[i] = board[boxIndices[boxNumber][i]];
-        //memcpy(boxValues+i, &board[i], 1);
     }
-    // printString(boxValues, "box");
 
     return boxValues;
 }
 
 void printString(char *string, char *descrip)
 {
-    //printf("The %s string is %s\n",descrip, string);
     puts(string);
 }
 
@@ -80,7 +72,6 @@ char *getValues(int index, char *board)
     strncat(all_values, col_values, 9);
     strncat(all_values, box_values, 9);
     all_values[27] = '\0';
-    // printString(all_values, "all");
 
     return all_values;
 }
@@ -113,13 +104,9 @@ char *solve(char *board)
     } else {
         char *possibilities = getPossibilities(zero, board);
         for(int i = 0; i < strlen(possibilities); i++) {
-            // printf("Character is %c\n", possibilities[i]);
             char *new_string = malloc(strlen(board));
             memcpy(new_string, board, strlen(board));
             new_string[zero] = possibilities[i];
-            // if there are no zeros in the solved board
-            // then you've solved it and can return
-            // otherwise, keep looking
             char *result = solve(new_string);
             if(result)
               return result;
@@ -132,8 +119,6 @@ char *solve(char *board)
 
 int main(int argc, char *argv[])
 {
-
-    // char *the_board = "302609005500730000000000900000940000000000109000057060008500006000000003019082040";
 
     char *unsolved_boards[] = {
         "096040001100060004504810390007950043030080000405023018010630059059070830003590007",
@@ -156,24 +141,6 @@ int main(int argc, char *argv[])
     for(int i = 0; i < sizeof(unsolved_boards)/sizeof(*unsolved_boards); i++) {
         printString(solve(unsolved_boards[i]), "board");
     }
-    // FILE *fp;
-    // char *line = NULL;
-    // size_t len = 0;
-    // ssize_t read;
-
-    // fp = fopen("puzzles.txt", "r");
-    // if(fp == NULL)
-    //     exit(EXIT_FAILURE);
-
-    // while ((read = getline(&line, &len, fp)) != -1) {
-    //     printString(solve(line), "board");
-    //     // printf("Retrieved line of length %zu :\n", read);
-    //     // printf("%s", line);
-    // }
-
-    // if(line)
-    //     free(line);
-    // printString(solve(the_board), "board");
 
     return 0;
 
